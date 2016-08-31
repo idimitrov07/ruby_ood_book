@@ -5,11 +5,18 @@ class RevealingReferences
     @wheels = wheelify(data)
   end
 
+  # enforce singe responsibility everywhere
+  # first - iterate over the array
   def diameters
-    wheels.collect { |wheel| wheel.rim + (wheel.tire * 2) }
+    wheels.collect { |wheel| diameter(wheel) }
   end
-  # now everyone can send rim/tire to wheel
 
+  # second - calculate diameter of one wheel
+  def diameter(wheel)
+    wheel.rim + (wheel.tire * 2)
+  end
+
+  # now everyone can send rim/tire to wheel
   Wheel = Struct.new(:rim, :tire)
   def wheelify(data)
     data.collect { |cell| Wheel.new(cell[0], cell[1]) }
